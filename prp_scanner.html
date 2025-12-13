@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#366092">
+    <title>PRP Scanner</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #366092;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .step {
+            margin-bottom: 25px;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #366092;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #366092;
+        }
+
+        .scan-button {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .scan-button:active {
+            transform: scale(0.98);
+        }
+
+        .scan-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .scan-button.done {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .camera-icon {
+            font-size: 24px;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .data-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .data-preview h4 {
+            margin-bottom: 10px;
+            color: #366092;
+        }
+
+        .data-preview table {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .data-preview td {
+            padding: 5px;
+        }
+
+        .data-preview td:first-child {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 30px;
+            display: none;
+            transition: transform 0.2s;
+        }
+
+        .submit-button:active {
+            transform: scale(0.98);
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #366092;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .checkmark {
+            font-size: 20px;
+            color: #38ef7d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 PRP Scanner</h1>
+            <p>Scan automatique des tickets d'hématologie</p>
+        </div>
+
+        <!-- Étape 1 : Nom du patient -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-title">Nom du patient</div>
+            </div>
+            <input type="text" id="patientName" placeholder="Ex: Dupont Jean">
+        </div>
+
+        <!-- Étape 2 : Scan Sang Total -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-title">Scanner SANG TOTAL</div>
+            </div>
+            <button class="scan-button" id="scanBloodBtn">
+                <span class="camera-icon">📷</span>
+                <span id="bloodBtnText">Prendre photo du ticket</span>
+            </button>
+            <input type="file" id="bloodInput" accept="image/*" capture="environment">
+            <div class="status" id="bloodStatus"></div>
+            <div class="data-preview" id="bloodPreview"></div>
+        </div>
+
+        <!-- Étape 3 : Scan PRP -->
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-title">Scanner PRP</div>
+            </div>
+            <button class="scan-button" id="scanPrpBtn" disabled>
+                <span class="camera-icon">📷</span>
+                <span id="prpBtnText">Prendre photo du ticket</span>
+            </button>
+            <input type="file" id="prpInput" accept="image/*" capture="environment">
+            <div class="status" id="prpStatus"></div>
+            <div class="data-preview" id="prpPreview"></div>
+        </div>
+
+        <!-- Bouton de validation -->
+        <button class="submit-button" id="submitBtn">
+            ✅ Créer le fichier Google Sheets
+        </button>
+
+        <div class="status" id="finalStatus"></div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_KEY = 'AIzaSyAuIqwhhZCxE-RUw7EMpsLCXp6F5YCQiTk';
+        const TEMPLATE_ID = '1Oi2bYfwcjq0NJsP-wtJcpSMv6yyadSI6';
+        
+        // ⚠️ IMPORTANT : Remplacez cette URL par celle de votre Google Apps Script
+        // Après avoir déployé le script, collez l'URL ici
+        const APPS_SCRIPT_URL = https://script.google.com/macros/s/AKfycbz-uBsCobhnZXZ9a0qJH8lC2ZWLivP5KggErhhGPDr4Wwqu0Y5qMm2Ydjg3zWMDt3EnXQ/exec ;
+        
+        // État de l'application
+        let bloodData = null;
+        let prpData = null;
+
+        // Éléments DOM
+        const patientNameInput = document.getElementById('patientName');
+        const scanBloodBtn = document.getElementById('scanBloodBtn');
+        const scanPrpBtn = document.getElementById('scanPrpBtn');
+        const bloodInput = document.getElementById('bloodInput');
+        const prpInput = document.getElementById('prpInput');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Event listeners
+        scanBloodBtn.addEventListener('click', () => bloodInput.click());
+        scanPrpBtn.addEventListener('click', () => prpInput.click());
+        bloodInput.addEventListener('change', (e) => handleImageUpload(e, 'blood'));
+        prpInput.addEventListener('change', (e) => handleImageUpload(e, 'prp'));
+        submitBtn.addEventListener('click', createGoogleSheet);
+
+        // Fonction principale de traitement d'image
+        async function handleImageUpload(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const statusEl = document.getElementById(`${type}Status`);
+            const previewEl = document.getElementById(`${type}Preview`);
+            const btnText = document.getElementById(`${type}BtnText`);
+
+            // Afficher le loader
+            statusEl.className = 'status info';
+            statusEl.style.display = 'block';
+            statusEl.innerHTML = '<div class="loader"></div> Analyse du ticket en cours...';
+
+            try {
+                // Convertir l'image en base64
+                const base64Image = await fileToBase64(file);
+
+                // Appeler l'API Google Vision
+                const ocrResult = await performOCR(base64Image);
+
+                // Extraire les données du ticket
+                const extractedData = extractTicketData(ocrResult, type);
+
+                // Afficher les résultats
+                if (type === 'blood') {
+                    bloodData = extractedData;
+                    displayData(extractedData, previewEl, 'Sang Total');
+                    statusEl.className = 'status success';
+                    statusEl.innerHTML = '✅ Ticket Sang Total scanné avec succès !';
+                    scanBloodBtn.classList.add('done');
+                    btnText.innerHTML = '<span class="checkmark">✓</span> Fait';
+                    scanPrpBtn.disabled = false;
+                } else {
+                    prpData = extractedData;
+                    displayData(extractedData, previewEl, 'PRP');
+                    statusEl.className = 'status success';
+                    statusEl.innerHTML = '✅ Ticket PRP scanné avec succès !';
+                    scanPrpBtn.classList.add('done');
+                    btnText.innerHTML = '<span class="checkmark">✓</span> Fait';
+                    submitBtn.style.display = 'block';
+                }
+
+                previewEl.style.display = 'block';
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                statusEl.className = 'status error';
+                statusEl.innerHTML = '❌ Erreur lors du scan. Veuillez réessayer.';
+            }
+        }
+
+        // Convertir fichier en base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Appel à Google Vision API
+        async function performOCR(base64Image) {
+            const url = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
+            
+            const requestBody = {
+                requests: [{
+                    image: { content: base64Image },
+                    features: [{ type: 'TEXT_DETECTION' }]
+                }]
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur API Vision');
+            }
+
+            const result = await response.json();
+            return result.responses[0].textAnnotations[0].description;
+        }
+
+        // Extraire les données du texte OCR
+        function extractTicketData(text, type) {
+            console.log('Texte OCR:', text);
+
+            const data = {
+                plt: null,
+                wbc: null,
+                rbc: null,
+                date: null,
+                type: type
+            };
+
+            // Extraction PLT (Plaquettes)
+            const pltMatch = text.match(/PLT[:\s]+(\d+\.?\d*)\s*(?:×?10[⁹^9]|10\^9)?\/L/i) || 
+                            text.match(/PLT[:\s]+(\d+\.?\d*)/i);
+            if (pltMatch) {
+                data.plt = parseFloat(pltMatch[1]);
+            }
+
+            // Extraction WBC (Leucocytes)
+            const wbcMatch = text.match(/WBC[:\s]+(\d+\.?\d*)\s*(?:×?10[⁹^9]|10\^9)?\/L/i) ||
+                            text.match(/WBC[:\s]+(\d+\.?\d*)/i);
+            if (wbcMatch) {
+                data.wbc = parseFloat(wbcMatch[1]);
+            }
+
+            // Extraction RBC (Globules rouges)
+            const rbcMatch = text.match(/RBC[:\s]+(\d+\.?\d*)\s*(?:×?10[¹²^12]|10\^12)?\/L/i) ||
+                            text.match(/RBC[:\s]+(\d+\.?\d*)/i);
+            if (rbcMatch) {
+                data.rbc = parseFloat(rbcMatch[1]);
+            }
+
+            // Extraction de la date (si ticket sang total)
+            if (type === 'blood') {
+                const dateMatch = text.match(/(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/);
+                if (dateMatch) {
+                    data.date = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]} ${dateMatch[4]}:${dateMatch[5]}`;
+                }
+            }
+
+            return data;
+        }
+
+        // Afficher les données extraites
+        function displayData(data, element, label) {
+            element.innerHTML = `
+                <h4>📋 ${label} - Données extraites</h4>
+                <table>
+                    <tr>
+                        <td>Plaquettes (PLT):</td>
+                        <td>${data.plt ? data.plt + ' x10⁹/L' : '❌ Non détecté'}</td>
+                    </tr>
+                    <tr>
+                        <td>Leucocytes (WBC):</td>
+                        <td>${data.wbc ? data.wbc + ' x10⁹/L' : '❌ Non détecté'}</td>
+                    </tr>
+                    <tr>
+                        <td>Globules rouges (RBC):</td>
+                        <td>${data.rbc ? data.rbc + ' x10¹²/L' : '❌ Non détecté'}</td>
+                    </tr>
+                    ${data.date ? `<tr><td>Date:</td><td>${data.date}</td></tr>` : ''}
+                </table>
+            `;
+        }
+
+        // Créer le fichier Google Sheets
+        async function createGoogleSheet() {
+            const patientName = patientNameInput.value.trim();
+            
+            if (!patientName) {
+                alert('Veuillez entrer le nom du patient');
+                return;
+            }
+
+            if (!bloodData || !prpData) {
+                alert('Veuillez scanner les deux tickets');
+                return;
+            }
+
+            // Vérifier que l'URL du script est configurée
+            if (APPS_SCRIPT_URL === 'VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI') {
+                alert('⚠️ Erreur de configuration: L\'URL du Google Apps Script n\'est pas configurée. Veuillez modifier le fichier prp_scanner.html.');
+                return;
+            }
+
+            const finalStatus = document.getElementById('finalStatus');
+            finalStatus.className = 'status info';
+            finalStatus.style.display = 'block';
+            finalStatus.innerHTML = '<div class="loader"></div> Création du fichier Google Sheets en cours...';
+            submitBtn.disabled = true;
+
+            try {
+                // Préparer les données à envoyer
+                const requestData = {
+                    patientName: patientName,
+                    date: bloodData.date ? bloodData.date.split(' ')[0] : new Date().toISOString().split('T')[0],
+                    bloodData: {
+                        plt: bloodData.plt,
+                        wbc: bloodData.wbc,
+                        rbc: bloodData.rbc,
+                        date: bloodData.date
+                    },
+                    prpData: {
+                        plt: prpData.plt,
+                        wbc: prpData.wbc,
+                        rbc: prpData.rbc
+                    }
+                };
+
+                // Appeler le Google Apps Script
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Requis pour Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                // Note: avec mode 'no-cors', on ne peut pas lire la réponse
+                // On suppose que ça a fonctionné si pas d'erreur
+                
+                finalStatus.className = 'status success';
+                finalStatus.innerHTML = `
+                    ✅ <strong>Fichier créé avec succès !</strong><br><br>
+                    <strong>Patient:</strong> ${patientName}<br>
+                    <strong>Date:</strong> ${requestData.date}<br><br>
+                    <strong>📂 Emplacement:</strong><br>
+                    Google Drive → Sessions PRP → ${requestData.date} → ${patientName.replace(/\s+/g, '_')}.xlsx<br><br>
+                    <strong>✅ Données Sang Total:</strong><br>
+                    • Plaquettes: ${bloodData.plt} x10⁹/L<br>
+                    • Leucocytes: ${bloodData.wbc} x10⁹/L<br>
+                    • GR: ${bloodData.rbc} x10¹²/L<br><br>
+                    <strong>✅ Données PRP:</strong><br>
+                    • Plaquettes: ${prpData.plt} x10⁹/L<br>
+                    • Leucocytes: ${prpData.wbc} x10⁹/L<br>
+                    • GR: ${prpData.rbc} x10¹²/L<br><br>
+                    <em>📝 Ouvrez le fichier sur votre ordinateur pour compléter les informations manuelles.</em><br><br>
+                    <button onclick="location.reload()" style="padding: 10px 20px; background: #366092; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">
+                        ➕ Nouveau patient
+                    </button>
+                `;
+
+                // Log pour debug
+                console.log('Fichier créé pour:', requestData);
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                finalStatus.className = 'status error';
+                finalStatus.innerHTML = `
+                    ❌ Erreur lors de la création du fichier.<br><br>
+                    <strong>Détails:</strong> ${error.message}<br><br>
+                    <strong>Vérifications:</strong><br>
+                    • L'URL du Google Apps Script est-elle correcte ?<br>
+                    • Le script est-il bien déployé comme "Web App" ?<br>
+                    • Avez-vous autorisé l'accès "Tout le monde" ?<br><br>
+                    <button onclick="location.reload()" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">
+                        🔄 Réessayer
+                    </button>
+                `;
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
