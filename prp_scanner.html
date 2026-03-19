@@ -23,185 +23,84 @@
       max-width: 500px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
-    h1 {
-      text-align: center;
-      color: #366092;
-      font-size: 1.6em;
-      margin-bottom: 5px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #888;
-      font-size: 0.9em;
-      margin-bottom: 25px;
-    }
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
+    h1 { text-align: center; color: #366092; font-size: 1.6em; margin-bottom: 5px; }
+    .subtitle { text-align: center; color: #888; font-size: 0.9em; margin-bottom: 25px; }
+    .step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; }
     .step-number {
-      background: #366092;
-      color: white;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 0.9em;
-      flex-shrink: 0;
+      background: #366092; color: white; border-radius: 50%;
+      width: 32px; height: 32px; display: flex; align-items: center;
+      justify-content: center; font-weight: bold; font-size: 0.9em; flex-shrink: 0;
     }
     .step-content { flex: 1; }
-    .step-title {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 8px;
-      font-size: 1em;
-    }
+    .step-title { font-weight: bold; color: #333; margin-bottom: 8px; font-size: 1em; }
     input[type="text"] {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 1em;
-      transition: border-color 0.2s;
+      width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0;
+      border-radius: 10px; font-size: 1em; transition: border-color 0.2s;
     }
-    input[type="text"]:focus {
-      outline: none;
-      border-color: #366092;
-    }
-    /* Choix type injection */
-    .injection-choice {
-      display: flex;
-      gap: 10px;
-    }
+    input[type="text"]:focus { outline: none; border-color: #366092; }
+    .injection-choice { display: flex; gap: 10px; }
     .choice-btn {
-      flex: 1;
-      padding: 12px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      background: white;
-      cursor: pointer;
-      text-align: center;
-      font-size: 0.9em;
-      font-weight: bold;
-      color: #555;
-      transition: all 0.2s;
+      flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px;
+      background: white; cursor: pointer; text-align: center;
+      font-size: 0.9em; font-weight: bold; color: #555; transition: all 0.2s;
     }
     .choice-btn:hover { border-color: #366092; color: #366092; }
-    .choice-btn.selected {
-      background: #366092;
-      border-color: #366092;
-      color: white;
-    }
-    /* Champ site d'injection */
+    .choice-btn.selected { background: #366092; border-color: #366092; color: white; }
     .site-input {
-      width: 100%;
-      padding: 10px 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 0.95em;
-      margin-top: 8px;
+      width: 100%; padding: 10px 15px; border: 2px solid #e0e0e0;
+      border-radius: 10px; font-size: 0.95em; margin-top: 8px;
     }
     .site-input:focus { outline: none; border-color: #366092; }
-    /* Boutons scan */
     .scan-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
+      width: 100%; padding: 14px; border: none; border-radius: 12px;
       background: linear-gradient(135deg, #366092, #764ba2);
-      color: white;
-      font-size: 1em;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 5px;
+      color: white; font-size: 1em; font-weight: bold; cursor: pointer;
+      transition: all 0.2s; margin-top: 5px;
     }
     .scan-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-    .scan-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .scan-btn.done {
-      background: linear-gradient(135deg, #28a745, #20c997);
-    }
-    /* Status */
+    .scan-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+    .scan-btn.done { background: linear-gradient(135deg, #28a745, #20c997); }
     .status {
-      padding: 10px 12px;
-      border-radius: 8px;
-      margin-top: 8px;
-      font-size: 0.9em;
-      display: none;
+      padding: 10px 12px; border-radius: 8px; margin-top: 8px;
+      font-size: 0.9em; display: none;
     }
     .status.info { background: #e3f2fd; color: #1565c0; display: block; }
     .status.success { background: #e8f5e9; color: #2e7d32; display: block; }
     .status.error { background: #ffebee; color: #c62828; display: block; }
-    /* Preview */
     .preview {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin-top: 8px;
-      font-size: 0.85em;
-      display: none;
+      background: #f8f9fa; border-radius: 8px; padding: 10px 12px;
+      margin-top: 8px; font-size: 0.85em; display: none;
     }
     .preview table { width: 100%; border-collapse: collapse; }
     .preview td { padding: 3px 6px; }
     .preview td:first-child { color: #666; }
     .preview td:last-child { font-weight: bold; color: #333; }
-    /* Divider double injection */
-    .divider {
-      border: none;
-      border-top: 2px dashed #e0e0e0;
-      margin: 15px 0;
-    }
+    .divider { border: none; border-top: 2px dashed #e0e0e0; margin: 15px 0; }
     .inj-label {
-      text-align: center;
-      font-size: 0.85em;
-      font-weight: bold;
-      color: #366092;
-      background: #e8f0fe;
-      padding: 4px 10px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 10px;
+      text-align: center; font-size: 0.85em; font-weight: bold; color: #366092;
+      background: #e8f0fe; padding: 4px 10px; border-radius: 20px;
+      display: inline-block; margin-bottom: 10px;
     }
-    /* Bouton soumettre */
+    .section-label {
+      text-align: center; font-size: 0.9em; font-weight: bold; color: white;
+      background: #366092; padding: 6px 10px; border-radius: 8px;
+      margin: 10px 0; display: block;
+    }
     .submit-btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
+      width: 100%; padding: 16px; border: none; border-radius: 12px;
       background: linear-gradient(135deg, #28a745, #20c997);
-      color: white;
-      font-size: 1.1em;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
-      display: none;
-      transition: all 0.2s;
+      color: white; font-size: 1.1em; font-weight: bold; cursor: pointer;
+      margin-top: 20px; display: none; transition: all 0.2s;
     }
     .submit-btn:hover { opacity: 0.9; }
     .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
-    /* Final status */
     #finalStatus { margin-top: 15px; font-size: 0.9em; }
     .loader {
-      display: inline-block;
-      width: 14px; height: 14px;
-      border: 2px solid #ccc;
-      border-top-color: #366092;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 6px;
-      vertical-align: middle;
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid #ccc; border-top-color: #366092; border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin-right: 6px; vertical-align: middle;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    /* Sections cachées */
     .hidden { display: none; }
   </style>
 </head>
@@ -235,10 +134,9 @@
     </div>
   </div>
 
-  <!-- ÉTAPES INJECTION UNIQUE -->
+  <!-- ===== SECTION INJECTION UNIQUE ===== -->
   <div id="sectionUnique" class="hidden">
 
-    <!-- Site injection -->
     <div class="step">
       <div class="step-number">3</div>
       <div class="step-content">
@@ -247,7 +145,6 @@
       </div>
     </div>
 
-    <!-- Scan sang total -->
     <div class="step">
       <div class="step-number">4</div>
       <div class="step-content">
@@ -261,7 +158,6 @@
       </div>
     </div>
 
-    <!-- Scan PRP -->
     <div class="step">
       <div class="step-number">5</div>
       <div class="step-content">
@@ -277,24 +173,26 @@
 
   </div>
 
-  <!-- ÉTAPES DOUBLE INJECTION -->
+  <!-- ===== SECTION DOUBLE INJECTION ===== -->
   <div id="sectionDouble" class="hidden">
 
-    <!-- INJECTION 1 -->
-    <div style="text-align:center"><span class="inj-label">💉 INJECTION 1</span></div>
-
+    <!-- Sites d'injection -->
     <div class="step">
       <div class="step-number">3</div>
       <div class="step-content">
-        <div class="step-title">Site injection 1</div>
-        <input type="text" class="site-input" id="site1Double" placeholder="Ex: Genou droit intra-articulaire">
+        <div class="step-title">Sites d'injection</div>
+        <input type="text" class="site-input" id="site1Double" placeholder="Site injection 1 (ex: Genou droit)">
+        <input type="text" class="site-input" id="site2Double" placeholder="Site injection 2 (ex: Cheville gauche)" style="margin-top:8px">
       </div>
     </div>
+
+    <!-- SANG TOTAL — les 2 seringues -->
+    <span class="section-label">🩸 SANG TOTAL — 2 seringues</span>
 
     <div class="step">
       <div class="step-number">4</div>
       <div class="step-content">
-        <div class="step-title">Scanner SANG TOTAL — Injection 1</div>
+        <div class="step-title">Scanner SANG TOTAL — Seringue 1</div>
         <button class="scan-btn" id="scanBlood1Btn" onclick="document.getElementById('bloodInput1').click()">
           📷 Prendre photo du ticket
         </button>
@@ -307,33 +205,7 @@
     <div class="step">
       <div class="step-number">5</div>
       <div class="step-content">
-        <div class="step-title">Scanner PRP — Injection 1</div>
-        <button class="scan-btn" id="scanPrp1Btn" disabled onclick="document.getElementById('prpInput1').click()">
-          📷 Prendre photo du ticket
-        </button>
-        <input type="file" id="prpInput1" accept="image/*" capture="environment" style="display:none">
-        <div class="status" id="prpStatus1"></div>
-        <div class="preview" id="prpPreview1"></div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- INJECTION 2 -->
-    <div style="text-align:center"><span class="inj-label">💉 INJECTION 2</span></div>
-
-    <div class="step">
-      <div class="step-number">6</div>
-      <div class="step-content">
-        <div class="step-title">Site injection 2</div>
-        <input type="text" class="site-input" id="site2Double" placeholder="Ex: Cheville gauche enthèse">
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-number">7</div>
-      <div class="step-content">
-        <div class="step-title">Scanner SANG TOTAL — Injection 2</div>
+        <div class="step-title">Scanner SANG TOTAL — Seringue 2</div>
         <button class="scan-btn" id="scanBlood2Btn" disabled onclick="document.getElementById('bloodInput2').click()">
           📷 Prendre photo du ticket
         </button>
@@ -343,10 +215,28 @@
       </div>
     </div>
 
+    <hr class="divider">
+
+    <!-- PRP — les 2 seringues -->
+    <span class="section-label">🔬 PRP — après centrifugation</span>
+
     <div class="step">
-      <div class="step-number">8</div>
+      <div class="step-number">6</div>
       <div class="step-content">
-        <div class="step-title">Scanner PRP — Injection 2</div>
+        <div class="step-title">Scanner PRP — Seringue 1</div>
+        <button class="scan-btn" id="scanPrp1Btn" disabled onclick="document.getElementById('prpInput1').click()">
+          📷 Prendre photo du ticket
+        </button>
+        <input type="file" id="prpInput1" accept="image/*" capture="environment" style="display:none">
+        <div class="status" id="prpStatus1"></div>
+        <div class="preview" id="prpPreview1"></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">7</div>
+      <div class="step-content">
+        <div class="step-title">Scanner PRP — Seringue 2</div>
         <button class="scan-btn" id="scanPrp2Btn" disabled onclick="document.getElementById('prpInput2').click()">
           📷 Prendre photo du ticket
         </button>
@@ -367,28 +257,18 @@
 </div>
 
 <script>
-// ============================================================
-// CONFIGURATION
-// ============================================================
 const API_KEY = 'AIzaSyAuIqwhhZCxE-RUw7EMpsLCXp6F5YCQiTk';
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbye0K32F6ivhRuWMDwc8oXinZNm2OcSBHT5pNctqfWAstmxvqAjt-bXVtDzvkAc7FWKiw/exec';
 
-// ============================================================
-// ÉTAT DE L'APPLICATION
-// ============================================================
 let injectionType = null;
-let bloodData = null;    // Sang total inj 1 (ou unique)
-let prpData = null;      // PRP inj 1 (ou unique)
-let bloodData2 = null;   // Sang total inj 2
-let prpData2 = null;     // PRP inj 2
+let bloodData = null;   // Sang total seringue 1
+let bloodData2 = null;  // Sang total seringue 2
+let prpData = null;     // PRP seringue 1
+let prpData2 = null;    // PRP seringue 2
 
-// ============================================================
-// CHOIX TYPE D'INJECTION
-// ============================================================
 function setInjectionType(type) {
   injectionType = type;
-  // Reset état
-  bloodData = prpData = bloodData2 = prpData2 = null;
+  bloodData = bloodData2 = prpData = prpData2 = null;
 
   document.getElementById('btnUnique').classList.toggle('selected', type === 'unique');
   document.getElementById('btnDouble').classList.toggle('selected', type === 'double');
@@ -397,19 +277,20 @@ function setInjectionType(type) {
   document.getElementById('submitBtn').style.display = 'none';
   document.getElementById('finalStatus').className = 'status';
 
-  // Reset boutons
   if (type === 'unique') {
     resetBtn('scanBloodBtnU', true);
     resetBtn('scanPrpBtnU', false);
-    clearStatus(['bloodStatusU','prpStatusU']);
-    clearPreview(['bloodPreviewU','prpPreviewU']);
+    clearPreviews(['bloodStatusU','prpStatusU'], ['bloodPreviewU','prpPreviewU']);
   } else {
+    // Ordre : sang1 → sang2 → PRP1 → PRP2
     resetBtn('scanBlood1Btn', true);
-    resetBtn('scanPrp1Btn', false);
     resetBtn('scanBlood2Btn', false);
+    resetBtn('scanPrp1Btn', false);
     resetBtn('scanPrp2Btn', false);
-    clearStatus(['bloodStatus1','prpStatus1','bloodStatus2','prpStatus2']);
-    clearPreview(['bloodPreview1','prpPreview1','bloodPreview2','prpPreview2']);
+    clearPreviews(
+      ['bloodStatus1','bloodStatus2','prpStatus1','prpStatus2'],
+      ['bloodPreview1','bloodPreview2','prpPreview1','prpPreview2']
+    );
   }
 }
 
@@ -420,39 +301,44 @@ function resetBtn(id, enabled) {
   btn.innerHTML = '📷 Prendre photo du ticket';
 }
 
-function clearStatus(ids) { ids.forEach(id => { document.getElementById(id).className = 'status'; }); }
-function clearPreview(ids) { ids.forEach(id => { document.getElementById(id).style.display = 'none'; }); }
+function clearPreviews(statusIds, previewIds) {
+  statusIds.forEach(id => { document.getElementById(id).className = 'status'; });
+  previewIds.forEach(id => { document.getElementById(id).style.display = 'none'; });
+}
 
-// ============================================================
-// GESTION DES SCANS
-// ============================================================
-// Injection unique
+// ── Listeners ──
+// Unique
 document.getElementById('bloodInputU').addEventListener('change', e => handleScan(e, 'blood', 'unique'));
 document.getElementById('prpInputU').addEventListener('change', e => handleScan(e, 'prp', 'unique'));
-// Double injection
-document.getElementById('bloodInput1').addEventListener('change', e => handleScan(e, 'blood', 'double1'));
-document.getElementById('prpInput1').addEventListener('change', e => handleScan(e, 'prp', 'double1'));
-document.getElementById('bloodInput2').addEventListener('change', e => handleScan(e, 'blood', 'double2'));
-document.getElementById('prpInput2').addEventListener('change', e => handleScan(e, 'prp', 'double2'));
+// Double — ordre : sang1 → sang2 → PRP1 → PRP2
+document.getElementById('bloodInput1').addEventListener('change', e => handleScan(e, 'blood1', 'double'));
+document.getElementById('bloodInput2').addEventListener('change', e => handleScan(e, 'blood2', 'double'));
+document.getElementById('prpInput1').addEventListener('change', e => handleScan(e, 'prp1', 'double'));
+document.getElementById('prpInput2').addEventListener('change', e => handleScan(e, 'prp2', 'double'));
 
-async function handleScan(event, type, context) {
+// Mapping : pour chaque scan, quels IDs et quel bouton activer ensuite
+const SCAN_CONFIG = {
+  unique: {
+    blood: { status:'bloodStatusU', preview:'bloodPreviewU', btn:'scanBloodBtnU', next:'scanPrpBtnU',  store: d => bloodData = d },
+    prp:   { status:'prpStatusU',   preview:'prpPreviewU',   btn:'scanPrpBtnU',   next:null,           store: d => prpData = d }
+  },
+  double: {
+    blood1: { status:'bloodStatus1', preview:'bloodPreview1', btn:'scanBlood1Btn', next:'scanBlood2Btn', store: d => bloodData = d },
+    blood2: { status:'bloodStatus2', preview:'bloodPreview2', btn:'scanBlood2Btn', next:'scanPrp1Btn',   store: d => bloodData2 = d },
+    prp1:   { status:'prpStatus1',   preview:'prpPreview1',   btn:'scanPrp1Btn',   next:'scanPrp2Btn',   store: d => prpData = d },
+    prp2:   { status:'prpStatus2',   preview:'prpPreview2',   btn:'scanPrp2Btn',   next:null,            store: d => prpData2 = d }
+  }
+};
+
+async function handleScan(event, scanKey, context) {
   const file = event.target.files[0];
   if (!file) return;
 
-  // Mapping IDs selon contexte
-  const ids = {
-    unique: { blood: { status:'bloodStatusU', preview:'bloodPreviewU', btn:'scanBloodBtnU', next:'scanPrpBtnU' },
-               prp:   { status:'prpStatusU',   preview:'prpPreviewU',   btn:'scanPrpBtnU',   next:null } },
-    double1: { blood: { status:'bloodStatus1', preview:'bloodPreview1', btn:'scanBlood1Btn', next:'scanPrp1Btn' },
-               prp:   { status:'prpStatus1',   preview:'prpPreview1',   btn:'scanPrp1Btn',   next:'scanBlood2Btn' } },
-    double2: { blood: { status:'bloodStatus2', preview:'bloodPreview2', btn:'scanBlood2Btn', next:'scanPrp2Btn' },
-               prp:   { status:'prpStatus2',   preview:'prpPreview2',   btn:'scanPrp2Btn',   next:null } }
-  };
-
-  const m = ids[context][type];
-  const statusEl = document.getElementById(m.status);
-  const previewEl = document.getElementById(m.preview);
-  const btn = document.getElementById(m.btn);
+  const cfg = SCAN_CONFIG[context][scanKey];
+  const statusEl = document.getElementById(cfg.status);
+  const previewEl = document.getElementById(cfg.preview);
+  const btn = document.getElementById(cfg.btn);
+  const isBlood = scanKey.includes('blood');
 
   statusEl.className = 'status info';
   statusEl.innerHTML = '<span class="loader"></span> Analyse du ticket en cours...';
@@ -460,32 +346,19 @@ async function handleScan(event, type, context) {
   try {
     const base64 = await fileToBase64(file);
     const ocrText = await performOCR(base64);
-    const extracted = extractTicketData(ocrText, type);
+    const extracted = extractTicketData(ocrText, isBlood ? 'blood' : 'prp');
 
-    // Stocker les données
-    if (context === 'unique') {
-      if (type === 'blood') bloodData = extracted;
-      else prpData = extracted;
-    } else if (context === 'double1') {
-      if (type === 'blood') bloodData = extracted;
-      else prpData = extracted;
-    } else {
-      if (type === 'blood') bloodData2 = extracted;
-      else prpData2 = extracted;
-    }
+    cfg.store(extracted);
 
-    // Afficher résultat
-    displayData(extracted, previewEl, type === 'blood' ? 'Sang Total' : 'PRP');
+    const label = isBlood ? 'Sang Total' : 'PRP';
+    displayData(extracted, previewEl, label);
     statusEl.className = 'status success';
     statusEl.innerHTML = '✅ Ticket scanné avec succès !';
     btn.classList.add('done');
     btn.innerHTML = '✓ Fait';
     previewEl.style.display = 'block';
 
-    // Activer le bouton suivant
-    if (m.next) document.getElementById(m.next).disabled = false;
-
-    // Vérifier si on peut afficher le bouton créer
+    if (cfg.next) document.getElementById(cfg.next).disabled = false;
     checkSubmitReady();
 
   } catch (err) {
@@ -496,18 +369,12 @@ async function handleScan(event, type, context) {
 }
 
 function checkSubmitReady() {
-  let ready = false;
-  if (injectionType === 'unique') {
-    ready = bloodData !== null && prpData !== null;
-  } else if (injectionType === 'double') {
-    ready = bloodData !== null && prpData !== null && bloodData2 !== null && prpData2 !== null;
-  }
+  const ready = injectionType === 'unique'
+    ? bloodData && prpData
+    : bloodData && bloodData2 && prpData && prpData2;
   document.getElementById('submitBtn').style.display = ready ? 'block' : 'none';
 }
 
-// ============================================================
-// OCR
-// ============================================================
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -531,15 +398,15 @@ async function performOCR(base64Image) {
 
 function extractTicketData(text, type) {
   const data = { plt: null, wbc: null, rbc: null, date: null, type };
-  const pltMatch = text.match(/PLT[:\s]+(\d+\.?\d*)/i);
-  if (pltMatch) data.plt = parseFloat(pltMatch[1]);
-  const wbcMatch = text.match(/WBC[:\s]+(\d+\.?\d*)/i);
-  if (wbcMatch) data.wbc = parseFloat(wbcMatch[1]);
-  const rbcMatch = text.match(/RBC[:\s]+(\d+\.?\d*)/i);
-  if (rbcMatch) data.rbc = parseFloat(rbcMatch[1]);
+  const plt = text.match(/PLT[:\s]+(\d+\.?\d*)/i);
+  if (plt) data.plt = parseFloat(plt[1]);
+  const wbc = text.match(/WBC[:\s]+(\d+\.?\d*)/i);
+  if (wbc) data.wbc = parseFloat(wbc[1]);
+  const rbc = text.match(/RBC[:\s]+(\d+\.?\d*)/i);
+  if (rbc) data.rbc = parseFloat(rbc[1]);
   if (type === 'blood') {
-    const dateMatch = text.match(/(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/);
-    if (dateMatch) data.date = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]} ${dateMatch[4]}:${dateMatch[5]}`;
+    const d = text.match(/(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/);
+    if (d) data.date = `${d[1]}-${d[2]}-${d[3]} ${d[4]}:${d[5]}`;
   }
   return data;
 }
@@ -550,14 +417,11 @@ function displayData(data, element, label) {
     <table>
       <tr><td>Plaquettes (PLT):</td><td>${data.plt ? data.plt + ' x10⁹/L' : '❌ Non détecté'}</td></tr>
       <tr><td>Leucocytes (WBC):</td><td>${data.wbc ? data.wbc + ' x10⁹/L' : '❌ Non détecté'}</td></tr>
-      <tr><td>Globules rouges (RBC):</td><td>${data.rbc ? data.rbc + ' x10¹²/L' : '❌ Non détecté'}</td></tr>
+      <tr><td>GR (RBC):</td><td>${data.rbc ? data.rbc + ' x10¹²/L' : '❌ Non détecté'}</td></tr>
       ${data.date ? `<tr><td>Date:</td><td>${data.date}</td></tr>` : ''}
     </table>`;
 }
 
-// ============================================================
-// CRÉATION GOOGLE SHEET
-// ============================================================
 async function createGoogleSheet() {
   const patientName = document.getElementById('patientName').value.trim();
   if (!patientName) { alert('Veuillez entrer le nom du patient'); return; }
@@ -568,26 +432,20 @@ async function createGoogleSheet() {
   finalStatus.innerHTML = '<span class="loader"></span> Création du fichier Google Sheets en cours...';
   document.getElementById('submitBtn').disabled = true;
 
-  // Récupérer les sites
   const site1 = injectionType === 'unique'
     ? document.getElementById('site1Unique').value.trim()
     : document.getElementById('site1Double').value.trim();
   const site2 = injectionType === 'double'
-    ? document.getElementById('site2Double').value.trim()
-    : '';
+    ? document.getElementById('site2Double').value.trim() : '';
 
-  const date = bloodData && bloodData.date
+  const date = bloodData?.date
     ? bloodData.date.split(' ')[0]
     : new Date().toISOString().split('T')[0];
 
   const requestData = {
-    injectionType,
-    patientName,
-    date,
-    site1,
-    site2,
+    injectionType, patientName, date, site1, site2,
     bloodData: { plt: bloodData.plt, wbc: bloodData.wbc, rbc: bloodData.rbc, date: bloodData.date },
-    prpData:   { plt: prpData.plt,   wbc: prpData.wbc,   rbc: prpData.rbc },
+    prpData:   { plt: prpData.plt,   wbc: prpData.wbc,   rbc: prpData.rbc }
   };
 
   if (injectionType === 'double') {
@@ -597,29 +455,26 @@ async function createGoogleSheet() {
 
   try {
     await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestData)
     });
 
-    const typeLabel = injectionType === 'double' ? 'Double injection' : 'Injection unique';
     finalStatus.className = 'status success';
     finalStatus.innerHTML = `
       ✅ <strong>Fichier créé avec succès !</strong><br><br>
       <strong>Patient :</strong> ${patientName}<br>
       <strong>Date :</strong> ${date}<br>
-      <strong>Type :</strong> ${typeLabel}<br>
+      <strong>Type :</strong> ${injectionType === 'double' ? 'Double injection' : 'Injection unique'}<br>
       ${site1 ? `<strong>Site 1 :</strong> ${site1}<br>` : ''}
       ${site2 ? `<strong>Site 2 :</strong> ${site2}<br>` : ''}
-      <br>
-      📂 Google Drive → Sessions PRP → ${date} → ${patientName.replace(/\s+/g,'_')}<br><br>
+      <br>📂 Google Drive → Sessions PRP → ${date}<br><br>
       <button onclick="location.reload()" style="padding:10px 20px;background:#366092;color:white;border:none;border-radius:8px;cursor:pointer;margin-top:10px;">
         ➕ Nouveau patient
       </button>`;
   } catch (err) {
     finalStatus.className = 'status error';
-    finalStatus.innerHTML = `❌ Erreur : ${err.message}<br><button onclick="location.reload()" style="padding:10px 20px;background:#c62828;color:white;border:none;border-radius:8px;cursor:pointer;margin-top:10px;">🔄 Réessayer</button>`;
+    finalStatus.innerHTML = `❌ Erreur : ${err.message}`;
     document.getElementById('submitBtn').disabled = false;
   }
 }
