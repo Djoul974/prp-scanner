@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Planning Kinés — OIB 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1a2744;--navy2:#243460;--teal:#2BC4B4;--teal-d:#1a9e90;--teal-l:#e8f9f7;--coral:#e8504a;--green:#2a9d6e;--bg:#f0f4f8;--grey:#f5f7fa;--border:#dde3ed;--text:#1a2744;--muted:#6b7a99;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);}
+.header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 70%,#2d4a8a 100%);padding:1.5rem 2rem 1.2rem;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(43,196,180,0.12);}
+.header::after{content:'';position:absolute;bottom:-40px;left:25%;width:160px;height:160px;border-radius:50%;background:rgba(232,80,74,0.08);}
+.hi{position:relative;z-index:1;}
+.ht0{display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
+.logo{background:var(--teal);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:11px;letter-spacing:2px;padding:5px 12px;border-radius:4px;text-transform:uppercase;}
+.header h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:#fff;letter-spacing:1px;text-transform:uppercase;line-height:1;}
+.header h1 span{color:var(--teal);}
+.header-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
+.pills{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 14px;font-size:11px;color:#fff;}
+.pill strong{color:var(--teal);font-size:13px;}
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;display:flex;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(26,39,68,0.06);}
+.nb{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;text-transform:uppercase;padding:14px 20px;border:none;background:transparent;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;}
+.nb:hover{color:var(--navy);} .nb.active{color:var(--teal-d);border-bottom-color:var(--teal);}
+.content{padding:1.5rem 2rem;max-width:1400px;margin:0 auto;}
+.tp{display:none;} .tp.active{display:block;}
+.stitle{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--navy);margin:0 0 1rem;display:flex;align-items:center;gap:10px;}
+.stitle::after{content:'';flex:1;height:1px;background:var(--border);}
+.sg{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.dc{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.dh{padding:12px 10px;text-align:center;}
+.dh h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;color:#fff;text-transform:uppercase;}
+.db{padding:6px;}
+.sl{display:flex;align-items:center;margin-bottom:4px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:default;}
+.sl:hover{border-color:var(--teal);}
+.sl-time{padding:6px 8px;font-size:10px;color:var(--muted);font-weight:500;background:var(--grey);min-width:105px;text-align:center;border-right:1px solid var(--border);white-space:nowrap;}
+.sl-name{padding:6px 10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--navy);flex:1;text-align:center;background:#fff;}
+.sl:hover .sl-name{color:var(--teal-d);}
+.dtot{text-align:center;padding:8px 4px 4px;font-size:11px;font-weight:600;}
+.htable{width:100%;border-collapse:collapse;font-size:12px;}
+.htable thead th{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.8px;text-transform:uppercase;color:#fff;background:var(--navy);padding:8px 10px;text-align:center;}
+.htable thead th:first-child{text-align:left;}
+.htable tbody tr:nth-child(even) td{background:var(--grey);}
+.htable tbody tr:nth-child(odd) td{background:#fff;}
+.htable tbody tr:hover td{background:var(--teal-l);}
+.htable td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:center;}
+.htable td:first-child{text-align:left;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--navy);}
+.htable .tr td{background:var(--navy)!important;color:#fff;font-weight:600;}
+.hv{font-weight:600;font-size:13px;color:var(--navy);} .he{color:#ccc;}
+.dp{color:var(--green);font-weight:700;} .dn{color:var(--coral);font-weight:700;} .dm{color:var(--muted);font-weight:500;}
+.th{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;color:var(--navy);}
+.ctabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.ctab{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1.5px solid var(--border);cursor:pointer;color:var(--muted);background:#fff;transition:all 0.15s;}
+.ctab:hover{border-color:var(--navy);color:var(--navy);}
+.cpane{display:none;} .cpane.active{display:block;}
+.cvtable{width:100%;border-collapse:collapse;font-size:12px;}
+.cvtable th{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:#fff;background:var(--navy);padding:7px 10px;text-align:center;}
+.cvtable th:first-child{text-align:left;}
+.cvtable td{padding:7px 10px;border-bottom:1px solid var(--border);}
+.cvtable tr:nth-child(even) td{background:var(--grey);} .cvtable tr:nth-child(odd) td{background:#fff;} .cvtable tr:hover td{background:var(--teal-l);}
+.nbb{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;padding:3px 10px;border-radius:5px;min-width:32px;text-align:center;}
+.n1{background:#dbeafe;color:#1d4ed8;} .n2,.n3{background:#dcfce7;color:#166534;}
+.n4,.n5{background:#fef9c3;color:#854d0e;} .n6{background:#ffe4e6;color:#9f1239;} .n7{background:#fce7f3;color:#831843;}
+.ctm{font-weight:600;font-size:11px;color:var(--navy);white-space:nowrap;} .ck{color:var(--text);font-size:11px;}
+.leg{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:11px;color:var(--muted);align-items:center;}
+.li{display:flex;align-items:center;gap:5px;} .lb{width:14px;height:14px;border-radius:3px;}
+@media(max-width:900px){.sg{grid-template-columns:1fr;}.nav{overflow-x:auto;}.content{padding:1rem;}}
+</style></head><body>
+<div class="header"><div class="hi">
+  <div class="ht0"><div class="logo">🎾 OIB 2026</div>
+    <div><h1>Open <span>des Brisants</span> — Planning Kinés</h1>
+    <p class="header-sub">World Tour Sand Series · Réunion Island · 6–10 mai 2026</p></div>
+  </div>
+  <div class="pills">
+    <div class="pill"><strong>11</strong> kinés</div>
+    <div class="pill"><strong>327,0h</strong> total</div>
+    <div class="pill"><strong>29,7h</strong> moyenne</div>
+    <div class="pill"><strong>≤ 7</strong> kinés simultanés</div>
+  </div>
+</div></div>
+<div class="nav">
+  <button class="nb active" onclick="showTab('cr',this)">Créneaux par jour</button>
+  <button class="nb" onclick="showTab('hr',this)">Heures & statistiques</button>
+  <button class="nb" onclick="showTab('cv',this)">Couverture créneaux</button>
+</div>
+<div class="content">
+  <div class="tp active" id="tab-cr"><p class="stitle" style="margin-top:.5rem">Planning par créneau</p><div class="sg" id="sg"></div></div>
+  <div class="tp" id="tab-hr"><p class="stitle" style="margin-top:.5rem">Heures effectives de présence</p><table class="htable" id="ht"></table></div>
+  <div class="tp" id="tab-cv"><p class="stitle" style="margin-top:.5rem">Couverture kinés par créneau</p>
+    <div class="ctabs" id="ctabs"></div><div id="cpanes"></div>
+    <div class="leg"><span style="font-weight:500;color:var(--navy)">Nb kinés :</span>
+      <div class="li"><div class="lb" style="background:#dbeafe"></div><span>1</span></div>
+      <div class="li"><div class="lb" style="background:#dcfce7"></div><span>2–3</span></div>
+      <div class="li"><div class="lb" style="background:#fef9c3"></div><span>4–5</span></div>
+      <div class="li"><div class="lb" style="background:#ffe4e6"></div><span>6</span></div>
+      <div class="li"><div class="lb" style="background:#fce7f3"></div><span>7</span></div>
+    </div>
+  </div>
+</div>
+<script>
+const DC=["#1D9E90", "#2471A3", "#CA6F1E", "#1E8449", "#6C3483"], DAYS=["Mercredi 6/05", "Jeudi 7/05", "Vendredi 8/05", "Samedi 9/05", "Dimanche 10/05"], MOY=29.73;
+const TJ={"Mercredi 6/05": 53.0, "Jeudi 7/05": 68.5, "Vendredi 8/05": 71.5, "Samedi 9/05": 76.5, "Dimanche 10/05": 57.5}, pl={"Mercredi 6/05": [["BA", "7h00", "15h00"], ["FH", "7h00", "16h00"], ["ML", "7h00", "17h00"], ["FB", "10h00", "16h00"], ["CL", "13h00", "22h00"], ["MD", "15h00", "22h00"], ["FB", "18h00", "22h00"]], "Jeudi 7/05": [["FH", "7h00", "15h00"], ["JC", "7h00", "15h00"], ["BA", "7h30", "14h30"], ["LM", "8h00", "18h00"], ["UL", "8h30", "16h00"], ["FB", "14h30", "20h30"], ["GB", "14h30", "22h30"], ["CL", "15h00", "22h00"], ["TE", "15h00", "22h00"]], "Vendredi 8/05": [["GB", "7h00", "13h00"], ["MD", "7h00", "15h00"], ["ML", "7h30", "15h30"], ["JC", "8h00", "18h00"], ["UL", "8h30", "15h00"], ["LM", "12h30", "22h30"], ["BA", "15h00", "23h00"], ["TE", "15h00", "23h00"], ["CL", "15h30", "22h30"]], "Samedi 9/05": [["TE", "7h00", "14h00"], ["ML", "7h30", "13h30"], ["MD", "8h30", "15h00"], ["CL", "9h00", "16h00"], ["FB", "9h00", "17h00"], ["JC", "12h00", "22h00"], ["UL", "13h00", "21h00"], ["FH", "14h00", "22h00"], ["GB", "15h00", "23h00"], ["BA", "15h00", "23h00"]], "Dimanche 10/05": [["LM", "7h30", "15h30"], ["ML", "8h30", "14h30"], ["MD", "9h00", "15h00"], ["UL", "9h00", "16h00"], ["FH", "14h00", "21h00"], ["GB", "15h00", "23h00"], ["TE", "15h00", "23h00"], ["FB", "15h30", "23h00"]]}, hr={"FB": {"Mer": 10.0, "Jeu": 6.0, "Ven": 0, "Sam": 8.0, "Dim": 7.5, "total": 31.5}, "LM": {"Mer": 0, "Jeu": 10.0, "Ven": 10.0, "Sam": 0, "Dim": 8.0, "total": 28.0}, "UL": {"Mer": 0, "Jeu": 7.5, "Ven": 6.5, "Sam": 8.0, "Dim": 7.0, "total": 29.0}, "FH": {"Mer": 9.0, "Jeu": 8.0, "Ven": 0, "Sam": 8.0, "Dim": 7.0, "total": 32.0}, "GB": {"Mer": 0, "Jeu": 8.0, "Ven": 6.0, "Sam": 8.0, "Dim": 8.0, "total": 30.0}, "JC": {"Mer": 0, "Jeu": 8.0, "Ven": 10.0, "Sam": 10.0, "Dim": 0, "total": 28.0}, "CL": {"Mer": 9.0, "Jeu": 7.0, "Ven": 7.0, "Sam": 7.0, "Dim": 0, "total": 30.0}, "TE": {"Mer": 0, "Jeu": 7.0, "Ven": 8.0, "Sam": 7.0, "Dim": 8.0, "total": 30.0}, "BA": {"Mer": 8.0, "Jeu": 7.0, "Ven": 8.0, "Sam": 8.0, "Dim": 0, "total": 31.0}, "MD": {"Mer": 7.0, "Jeu": 0, "Ven": 8.0, "Sam": 6.5, "Dim": 6.0, "total": 27.5}, "ML": {"Mer": 10.0, "Jeu": 0, "Ven": 8.0, "Sam": 6.0, "Dim": 6.0, "total": 30.0}}, cv={"Mercredi 6/05": [["7h00", "10h00", 3, "BA \u00b7 FH \u00b7 ML"], ["10h00", "13h00", 4, "BA \u00b7 FB \u00b7 FH \u00b7 ML"], ["13h00", "15h00", 5, "BA \u00b7 CL \u00b7 FB \u00b7 FH \u00b7 ML"], ["15h00", "16h00", 5, "CL \u00b7 FB \u00b7 FH \u00b7 MD \u00b7 ML"], ["16h00", "17h00", 3, "CL \u00b7 MD \u00b7 ML"], ["17h00", "18h00", 2, "CL \u00b7 MD"], ["18h00", "22h00", 3, "CL \u00b7 FB \u00b7 MD"]], "Jeudi 7/05": [["7h00", "7h30", 2, "FH \u00b7 JC"], ["7h30", "8h00", 3, "BA \u00b7 FH \u00b7 JC"], ["8h00", "8h30", 4, "BA \u00b7 FH \u00b7 JC \u00b7 LM"], ["8h30", "14h30", 5, "BA \u00b7 FH \u00b7 JC \u00b7 LM \u00b7 UL"], ["14h30", "15h00", 6, "FB \u00b7 FH \u00b7 GB \u00b7 JC \u00b7 LM \u00b7 UL"], ["15h00", "16h00", 6, "CL \u00b7 FB \u00b7 GB \u00b7 LM \u00b7 TE \u00b7 UL"], ["16h00", "18h00", 5, "CL \u00b7 FB \u00b7 GB \u00b7 LM \u00b7 TE"], ["18h00", "20h30", 4, "CL \u00b7 FB \u00b7 GB \u00b7 TE"], ["20h30", "22h00", 3, "CL \u00b7 GB \u00b7 TE"], ["22h00", "22h30", 1, "GB"]], "Vendredi 8/05": [["7h00", "7h30", 2, "GB \u00b7 MD"], ["7h30", "8h00", 3, "GB \u00b7 MD \u00b7 ML"], ["8h00", "8h30", 4, "GB \u00b7 JC \u00b7 MD \u00b7 ML"], ["8h30", "12h30", 5, "GB \u00b7 JC \u00b7 MD \u00b7 ML \u00b7 UL"], ["12h30", "13h00", 6, "GB \u00b7 JC \u00b7 LM \u00b7 MD \u00b7 ML \u00b7 UL"], ["13h00", "15h00", 5, "JC \u00b7 LM \u00b7 MD \u00b7 ML \u00b7 UL"], ["15h00", "15h30", 5, "BA \u00b7 JC \u00b7 LM \u00b7 ML \u00b7 TE"], ["15h30", "18h00", 5, "BA \u00b7 CL \u00b7 JC \u00b7 LM \u00b7 TE"], ["18h00", "22h30", 4, "BA \u00b7 CL \u00b7 LM \u00b7 TE"], ["22h30", "23h00", 2, "BA \u00b7 TE"]], "Samedi 9/05": [["7h00", "7h30", 1, "TE"], ["7h30", "8h30", 2, "ML \u00b7 TE"], ["8h30", "9h00", 3, "MD \u00b7 ML \u00b7 TE"], ["9h00", "12h00", 5, "CL \u00b7 FB \u00b7 MD \u00b7 ML \u00b7 TE"], ["12h00", "13h00", 6, "CL \u00b7 FB \u00b7 JC \u00b7 MD \u00b7 ML \u00b7 TE"], ["13h00", "13h30", 7, "CL \u00b7 FB \u00b7 JC \u00b7 MD \u00b7 ML \u00b7 TE \u00b7 UL"], ["13h30", "14h00", 6, "CL \u00b7 FB \u00b7 JC \u00b7 MD \u00b7 TE \u00b7 UL"], ["14h00", "15h00", 6, "CL \u00b7 FB \u00b7 FH \u00b7 JC \u00b7 MD \u00b7 UL"], ["15h00", "16h00", 7, "BA \u00b7 CL \u00b7 FB \u00b7 FH \u00b7 GB \u00b7 JC \u00b7 UL"], ["16h00", "17h00", 6, "BA \u00b7 FB \u00b7 FH \u00b7 GB \u00b7 JC \u00b7 UL"], ["17h00", "21h00", 5, "BA \u00b7 FH \u00b7 GB \u00b7 JC \u00b7 UL"], ["21h00", "22h00", 4, "BA \u00b7 FH \u00b7 GB \u00b7 JC"], ["22h00", "23h00", 2, "BA \u00b7 GB"]], "Dimanche 10/05": [["7h30", "8h30", 1, "LM"], ["8h30", "9h00", 2, "LM \u00b7 ML"], ["9h00", "14h00", 4, "LM \u00b7 MD \u00b7 ML \u00b7 UL"], ["14h00", "14h30", 5, "FH \u00b7 LM \u00b7 MD \u00b7 ML \u00b7 UL"], ["14h30", "15h00", 4, "FH \u00b7 LM \u00b7 MD \u00b7 UL"], ["15h00", "15h30", 5, "FH \u00b7 GB \u00b7 LM \u00b7 TE \u00b7 UL"], ["15h30", "16h00", 5, "FB \u00b7 FH \u00b7 GB \u00b7 TE \u00b7 UL"], ["16h00", "21h00", 4, "FB \u00b7 FH \u00b7 GB \u00b7 TE"], ["21h00", "23h00", 3, "FB \u00b7 GB \u00b7 TE"]]};
+const DK=['Mer','Jeu','Ven','Sam','Dim'];
+const DL=['Mer 6/05','Jeu 7/05','Ven 8/05','Sam 9/05','Dim 10/05'];
+
+// ── Onglet 1 : créneaux ──
+// pl[d] = [[k,s,e],...] → afficher s=s[1]-s[2], nom=s[0]
+const sg=document.getElementById('sg');
+DAYS.forEach((d,i)=>{
+  const col=document.createElement('div'); col.className='dc';
+  col.innerHTML=`<div class="dh" style="background:${DC[i]}"><h2>${d}</h2></div>
+    <div class="db">
+      ${pl[d].map(s=>`<div class="sl">
+        <div class="sl-time">${s[1]}–${s[2]}</div>
+        <div class="sl-name">${s[0]}</div>
+      </div>`).join('')}
+      <div class="dtot" style="color:${DC[i]}">Total : ${TJ[d]}h</div>
+    </div>`;
+  sg.appendChild(col);
+});
+
+// ── Onglet 2 : heures ──
+const totV=[54,68.5,71.5,76.5,57.5];
+document.getElementById('ht').innerHTML=`
+  <thead><tr><th>Kiné</th>${DL.map(d=>`<th>${d}</th>`).join('')}<th>Total</th><th>Écart moy.</th></tr></thead>
+  <tbody>
+    ${Object.keys(hr).map(k=>{
+      const d=hr[k]; const df=+(d.total-MOY).toFixed(1);
+      const dc=df>0.5?'dp':df<-0.5?'dn':'dm';
+      return `<tr><td>${k}</td>
+        ${DK.map(dk=>d[dk]?`<td class="hv">${d[dk]}h</td>`:`<td class="he">—</td>`).join('')}
+        <td><span class="th">${d.total.toFixed(1)}h</span></td>
+        <td class="${dc}">${df>=0?'+':''}${df}h</td></tr>`;
+    }).join('')}
+    <tr class="tr"><td>Total / Moy.</td>
+      ${totV.map(v=>`<td>${v}h</td>`).join('')}
+      <td>327,0h</td><td>moy. ${MOY.toFixed(1)}h</td>
+    </tr>
+  </tbody>`;
+
+// ── Onglet 3 : couverture ──
+const ctabs=document.getElementById('ctabs'); const cpanes=document.getElementById('cpanes');
+DAYS.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='ctab'+(i===0?' active':''); b.textContent=d;
+  if(i===0) b.style.cssText=`background:${DC[0]};color:#fff;border-color:${DC[0]}`;
+  b.onclick=()=>{
+    document.querySelectorAll('.ctab').forEach(t=>{t.classList.remove('active');t.style.cssText='';});
+    b.classList.add('active'); b.style.cssText=`background:${DC[i]};color:#fff;border-color:${DC[i]}`;
+    document.querySelectorAll('.cpane').forEach(p=>p.classList.remove('active'));
+    document.getElementById('cp-'+i).classList.add('active');
+  };
+  ctabs.appendChild(b);
+  const p=document.createElement('div'); p.id='cp-'+i;
+  p.className='cpane'+(i===0?' active':'');
+  p.innerHTML=`<table class="cvtable">
+    <thead><tr><th>Créneau</th><th>Nb kinés</th><th>Kinés présents</th></tr></thead>
+    <tbody>${cv[d].map(s=>`<tr>
+      <td class="ctm">${s[0]} – ${s[1]}</td>
+      <td style="text-align:center"><span class="nbb n${Math.min(s[2],7)}">${s[2]}</span></td>
+      <td class="ck">${s[3]}</td></tr>`).join('')}</tbody></table>`;
+  cpanes.appendChild(p);
+});
+
+function showTab(n,b){
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active'); b.classList.add('active');
+}
+</script></body></html>
