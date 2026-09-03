@@ -397,7 +397,7 @@ async function performOCR(base64Image) {
 }
 
 function extractTicketData(text, type) {
-  const data = { plt: null, wbc: null, rbc: null, date: null, type };
+  const data = { plt: null, wbc: null, rbc: null, hct: null, date: null, type };
   const plt = text.match(/PLT[:\s]+(\d+\.?\d*)/i);
   if (plt) data.plt = parseFloat(plt[1]);
   const wbc = text.match(/WBC[:\s]+(\d+\.?\d*)/i);
@@ -405,6 +405,8 @@ function extractTicketData(text, type) {
   const rbc = text.match(/RBC[:\s]+(\d+\.?\d*)/i);
   if (rbc) data.rbc = parseFloat(rbc[1]);
   if (type === 'blood') {
+    const hct = text.match(/HCT[:\s]+(\d+\.?\d*)/i);
+    if (hct) data.hct = parseFloat(hct[1]);
     const d = text.match(/(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/);
     if (d) data.date = `${d[1]}-${d[2]}-${d[3]} ${d[4]}:${d[5]}`;
   }
@@ -418,6 +420,7 @@ function displayData(data, element, label) {
       <tr><td>Plaquettes (PLT):</td><td>${data.plt ? data.plt + ' x10⁹/L' : '❌ Non détecté'}</td></tr>
       <tr><td>Leucocytes (WBC):</td><td>${data.wbc ? data.wbc + ' x10⁹/L' : '❌ Non détecté'}</td></tr>
       <tr><td>GR (RBC):</td><td>${data.rbc ? data.rbc + ' x10¹²/L' : '❌ Non détecté'}</td></tr>
+      ${data.hct ? `<tr><td>Hématocrite (HCT):</td><td>${data.hct} %</td></tr>` : ''}
       ${data.date ? `<tr><td>Date:</td><td>${data.date}</td></tr>` : ''}
     </table>`;
 }
@@ -444,12 +447,12 @@ async function createGoogleSheet() {
 
   const requestData = {
     injectionType, patientName, date, site1, site2,
-    bloodData: { plt: bloodData.plt, wbc: bloodData.wbc, rbc: bloodData.rbc, date: bloodData.date },
+    bloodData: { plt: bloodData.plt, wbc: bloodData.wbc, rbc: bloodData.rbc, hct: bloodData.hct, date: bloodData.date },
     prpData:   { plt: prpData.plt,   wbc: prpData.wbc,   rbc: prpData.rbc }
   };
 
   if (injectionType === 'double') {
-    requestData.bloodData2 = { plt: bloodData2.plt, wbc: bloodData2.wbc, rbc: bloodData2.rbc };
+    requestData.bloodData2 = { plt: bloodData2.plt, wbc: bloodData2.wbc, rbc: bloodData2.rbc, hct: bloodData2.hct };
     requestData.prpData2   = { plt: prpData2.plt,   wbc: prpData2.wbc,   rbc: prpData2.rbc };
   }
 
