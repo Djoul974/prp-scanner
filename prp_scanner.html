@@ -102,6 +102,11 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .hidden { display: none; }
+    .vol-choice { display: flex; gap: 10px; margin-top: 8px; }
+    .vol-btn { flex: 1; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px; background: white;
+               cursor: pointer; font-size: 0.95em; font-weight: bold; color: #555; }
+    .vol-btn.selected { background: #c0392b; border-color: #c0392b; color: white; }
+    .vol-label { font-size: 0.85em; color: #666; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -142,6 +147,11 @@
       <div class="step-content">
         <div class="step-title">Site d'injection</div>
         <input type="text" class="site-input" id="site1Unique" placeholder="Ex: Genou droit intra-articulaire">
+        <div class="vol-label">🩸 Volume de sang prélevé pour cette injection</div>
+        <div class="vol-choice" data-inj="1">
+          <button type="button" class="vol-btn" onclick="setVolSang(1, 20, this)">20 mL</button>
+          <button type="button" class="vol-btn" onclick="setVolSang(1, 40, this)">40 mL</button>
+        </div>
       </div>
     </div>
 
@@ -182,7 +192,17 @@
       <div class="step-content">
         <div class="step-title">Sites d'injection</div>
         <input type="text" class="site-input" id="site1Double" placeholder="Site injection 1 (ex: Genou droit)">
-        <input type="text" class="site-input" id="site2Double" placeholder="Site injection 2 (ex: Cheville gauche)" style="margin-top:8px">
+        <div class="vol-label">🩸 Sang prélevé pour l'injection 1</div>
+        <div class="vol-choice" data-inj="1">
+          <button type="button" class="vol-btn" onclick="setVolSang(1, 20, this)">20 mL</button>
+          <button type="button" class="vol-btn" onclick="setVolSang(1, 40, this)">40 mL</button>
+        </div>
+        <input type="text" class="site-input" id="site2Double" placeholder="Site injection 2 (ex: Cheville gauche)" style="margin-top:14px">
+        <div class="vol-label">🩸 Sang prélevé pour l'injection 2</div>
+        <div class="vol-choice" data-inj="2">
+          <button type="button" class="vol-btn" onclick="setVolSang(2, 20, this)">20 mL</button>
+          <button type="button" class="vol-btn" onclick="setVolSang(2, 40, this)">40 mL</button>
+        </div>
       </div>
     </div>
 
@@ -265,10 +285,20 @@ let bloodData = null;   // Sang total seringue 1
 let bloodData2 = null;  // Sang total seringue 2
 let prpData = null;     // PRP seringue 1
 let prpData2 = null;    // PRP seringue 2
+let volSang1 = null;    // Volume de sang prélevé pour l'injection 1 (20 ou 40 mL)
+let volSang2 = null;    // Volume de sang prélevé pour l'injection 2 (double injection)
+
+function setVolSang(inj, ml, btn) {
+  if (inj === 1) volSang1 = ml; else volSang2 = ml;
+  btn.parentElement.querySelectorAll('.vol-btn').forEach(b => b.classList.toggle('selected', b === btn));
+  checkSubmitReady();
+}
 
 function setInjectionType(type) {
   injectionType = type;
   bloodData = bloodData2 = prpData = prpData2 = null;
+  volSang1 = volSang2 = null;
+  document.querySelectorAll('.vol-btn').forEach(b => b.classList.remove('selected'));
 
   document.getElementById('btnUnique').classList.toggle('selected', type === 'unique');
   document.getElementById('btnDouble').classList.toggle('selected', type === 'double');
@@ -429,6 +459,10 @@ async function createGoogleSheet() {
   const patientName = document.getElementById('patientName').value.trim();
   if (!patientName) { alert('Veuillez entrer le nom du patient'); return; }
   if (!injectionType) { alert('Veuillez choisir le type d\'injection'); return; }
+  if (!volSang1 || (injectionType === 'double' && !volSang2)) {
+    alert('Veuillez indiquer le volume de sang prélevé (20 ou 40 mL)' + (injectionType === 'double' ? ' pour chaque injection' : ''));
+    return;
+  }
 
   const finalStatus = document.getElementById('finalStatus');
   finalStatus.className = 'status info';
@@ -447,6 +481,7 @@ async function createGoogleSheet() {
 
   const requestData = {
     injectionType, patientName, date, site1, site2,
+    volSang1, volSang2: injectionType === 'double' ? volSang2 : null,
     bloodData: { plt: bloodData.plt, wbc: bloodData.wbc, rbc: bloodData.rbc, hct: bloodData.hct, date: bloodData.date },
     prpData:   { plt: prpData.plt,   wbc: prpData.wbc,   rbc: prpData.rbc }
   };
@@ -471,6 +506,7 @@ async function createGoogleSheet() {
       <strong>Type :</strong> ${injectionType === 'double' ? 'Double injection' : 'Injection unique'}<br>
       ${site1 ? `<strong>Site 1 :</strong> ${site1}<br>` : ''}
       ${site2 ? `<strong>Site 2 :</strong> ${site2}<br>` : ''}
+      <strong>Sang prélevé :</strong> ${volSang1} mL${injectionType === 'double' ? ' + ' + volSang2 + ' mL' : ''}<br>
       <br>📂 Google Drive → Sessions PRP → ${date}<br><br>
       <button onclick="location.reload()" style="padding:10px 20px;background:#366092;color:white;border:none;border-radius:8px;cursor:pointer;margin-top:10px;">
         ➕ Nouveau patient
