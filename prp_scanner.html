@@ -107,6 +107,8 @@
                cursor: pointer; font-size: 0.95em; font-weight: bold; color: #555; }
     .vol-btn.selected { background: #c0392b; border-color: #c0392b; color: white; }
     .vol-label { font-size: 0.85em; color: #666; margin-top: 10px; }
+    .num-input { width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1em; margin-top: 6px; }
+    .info-40 { background: #fff8e1; border-radius: 8px; padding: 8px 10px; font-size: 0.85em; color: #8a6d00; margin: 6px 0 14px; }
   </style>
 </head>
 <body>
@@ -158,7 +160,7 @@
     <div class="step">
       <div class="step-number">4</div>
       <div class="step-content">
-        <div class="step-title">Scanner SANG TOTAL</div>
+        <div class="step-title" id="titleBloodU">Scanner SANG TOTAL</div>
         <button class="scan-btn" id="scanBloodBtnU" onclick="document.getElementById('bloodInputU').click()">
           📷 Prendre photo du ticket
         </button>
@@ -168,16 +170,57 @@
       </div>
     </div>
 
+    <!-- 40 mL dans un seul site : 2e seringue de sang -->
+    <div id="u40Blood" class="hidden">
+      <div class="info-40">40 mL = 2 seringues de 20 mL : scannez le sang de chaque seringue (la moyenne sera calculée), puis le PRP de chaque seringue de 10 mL.</div>
+      <div class="step">
+        <div class="step-number">4b</div>
+        <div class="step-content">
+          <div class="step-title">Scanner SANG TOTAL — seringue 2</div>
+          <button class="scan-btn" id="scanBloodBtnU2" onclick="document.getElementById('bloodInputU2').click()">
+            📷 Prendre photo du ticket
+          </button>
+          <input type="file" id="bloodInputU2" accept="image/*" capture="environment" style="display:none">
+          <div class="status" id="bloodStatusU2"></div>
+          <div class="preview" id="bloodPreviewU2"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="step">
       <div class="step-number">5</div>
       <div class="step-content">
-        <div class="step-title">Scanner PRP</div>
+        <div class="step-title" id="titlePrpU">Scanner PRP</div>
         <button class="scan-btn" id="scanPrpBtnU" disabled onclick="document.getElementById('prpInputU').click()">
           📷 Prendre photo du ticket
         </button>
         <input type="file" id="prpInputU" accept="image/*" capture="environment" style="display:none">
         <div class="status" id="prpStatusU"></div>
         <div class="preview" id="prpPreviewU"></div>
+      </div>
+    </div>
+
+    <!-- 40 mL dans un seul site : 2e seringue de PRP + volumes -->
+    <div id="u40Prp" class="hidden">
+      <div class="step">
+        <div class="step-number">5b</div>
+        <div class="step-content">
+          <div class="step-title">Scanner PRP — seringue 2</div>
+          <button class="scan-btn" id="scanPrpBtnU2" onclick="document.getElementById('prpInputU2').click()">
+            📷 Prendre photo du ticket
+          </button>
+          <input type="file" id="prpInputU2" accept="image/*" capture="environment" style="display:none">
+          <div class="status" id="prpStatusU2"></div>
+          <div class="preview" id="prpPreviewU2"></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <div class="step-title">Volume de PRP de chaque seringue (mL)</div>
+          <input type="number" inputmode="decimal" step="0.5" min="0" max="20" class="num-input" id="volPrpU1" placeholder="Seringue 1 (ex : 8,5)" oninput="checkSubmitReady()">
+          <input type="number" inputmode="decimal" step="0.5" min="0" max="20" class="num-input" id="volPrpU2" placeholder="Seringue 2 (ex : 7,5)" oninput="checkSubmitReady()">
+        </div>
       </div>
     </div>
 
@@ -291,7 +334,22 @@ let volSang2 = null;    // Volume de sang prélevé pour l'injection 2 (double i
 function setVolSang(inj, ml, btn) {
   if (inj === 1) volSang1 = ml; else volSang2 = ml;
   btn.parentElement.querySelectorAll('.vol-btn').forEach(b => b.classList.toggle('selected', b === btn));
+  majMode40();
   checkSubmitReady();
+}
+
+// 40 mL pour une injection unique = 2 seringues : on affiche les scans supplémentaires
+function est40Unique() { return injectionType === 'unique' && volSang1 === 40; }
+function majMode40() {
+  const on = est40Unique();
+  document.getElementById('u40Blood').classList.toggle('hidden', !on);
+  document.getElementById('u40Prp').classList.toggle('hidden', !on);
+  document.getElementById('titleBloodU').textContent = on ? 'Scanner SANG TOTAL — seringue 1' : 'Scanner SANG TOTAL';
+  document.getElementById('titlePrpU').textContent = on ? 'Scanner PRP — seringue 1' : 'Scanner PRP';
+}
+function nombre(id) {
+  const v = parseFloat(String(document.getElementById(id).value).replace(',', '.'));
+  return isNaN(v) ? null : v;
 }
 
 function setInjectionType(type) {
@@ -299,6 +357,7 @@ function setInjectionType(type) {
   bloodData = bloodData2 = prpData = prpData2 = null;
   volSang1 = volSang2 = null;
   document.querySelectorAll('.vol-btn').forEach(b => b.classList.remove('selected'));
+  ['volPrpU1', 'volPrpU2'].forEach(id => { document.getElementById(id).value = ''; });
 
   document.getElementById('btnUnique').classList.toggle('selected', type === 'unique');
   document.getElementById('btnDouble').classList.toggle('selected', type === 'double');
@@ -307,10 +366,14 @@ function setInjectionType(type) {
   document.getElementById('submitBtn').style.display = 'none';
   document.getElementById('finalStatus').className = 'status';
 
+  majMode40();
   if (type === 'unique') {
     resetBtn('scanBloodBtnU', true);
     resetBtn('scanPrpBtnU', false);
-    clearPreviews(['bloodStatusU','prpStatusU'], ['bloodPreviewU','prpPreviewU']);
+    resetBtn('scanBloodBtnU2', true);
+    resetBtn('scanPrpBtnU2', true);
+    clearPreviews(['bloodStatusU','prpStatusU','bloodStatusU2','prpStatusU2'],
+                  ['bloodPreviewU','prpPreviewU','bloodPreviewU2','prpPreviewU2']);
   } else {
     // Ordre : sang1 → sang2 → PRP1 → PRP2
     resetBtn('scanBlood1Btn', true);
@@ -340,6 +403,8 @@ function clearPreviews(statusIds, previewIds) {
 // Unique
 document.getElementById('bloodInputU').addEventListener('change', e => handleScan(e, 'blood', 'unique'));
 document.getElementById('prpInputU').addEventListener('change', e => handleScan(e, 'prp', 'unique'));
+document.getElementById('bloodInputU2').addEventListener('change', e => handleScan(e, 'blood2', 'unique'));
+document.getElementById('prpInputU2').addEventListener('change', e => handleScan(e, 'prp2', 'unique'));
 // Double — ordre : sang1 → sang2 → PRP1 → PRP2
 document.getElementById('bloodInput1').addEventListener('change', e => handleScan(e, 'blood1', 'double'));
 document.getElementById('bloodInput2').addEventListener('change', e => handleScan(e, 'blood2', 'double'));
@@ -350,7 +415,9 @@ document.getElementById('prpInput2').addEventListener('change', e => handleScan(
 const SCAN_CONFIG = {
   unique: {
     blood: { status:'bloodStatusU', preview:'bloodPreviewU', btn:'scanBloodBtnU', next:'scanPrpBtnU',  store: d => bloodData = d },
-    prp:   { status:'prpStatusU',   preview:'prpPreviewU',   btn:'scanPrpBtnU',   next:null,           store: d => prpData = d }
+    prp:   { status:'prpStatusU',   preview:'prpPreviewU',   btn:'scanPrpBtnU',   next:null,           store: d => prpData = d },
+    blood2:{ status:'bloodStatusU2',preview:'bloodPreviewU2',btn:'scanBloodBtnU2',next:null,           store: d => bloodData2 = d },
+    prp2:  { status:'prpStatusU2',  preview:'prpPreviewU2',  btn:'scanPrpBtnU2',  next:null,           store: d => prpData2 = d }
   },
   double: {
     blood1: { status:'bloodStatus1', preview:'bloodPreview1', btn:'scanBlood1Btn', next:'scanBlood2Btn', store: d => bloodData = d },
@@ -399,9 +466,10 @@ async function handleScan(event, scanKey, context) {
 }
 
 function checkSubmitReady() {
-  const ready = injectionType === 'unique'
+  let ready = injectionType === 'unique'
     ? bloodData && prpData
     : bloodData && bloodData2 && prpData && prpData2;
+  if (est40Unique()) ready = ready && bloodData2 && prpData2 && nombre('volPrpU1') > 0 && nombre('volPrpU2') > 0;
   document.getElementById('submitBtn').style.display = ready ? 'block' : 'none';
 }
 
@@ -455,6 +523,16 @@ function displayData(data, element, label) {
     </table>`;
 }
 
+// Résumé affiché après envoi (mêmes calculs que le serveur)
+function resume40() {
+  const v1 = nombre('volPrpU1'), v2 = nombre('volPrpU2');
+  const plt = (prpData.plt * v1 + prpData2.plt * v2) / (v1 + v2);
+  const dose = (prpData.plt * v1 + prpData2.plt * v2) / 1000;
+  const sang = (bloodData.plt + bloodData2.plt) / 2;
+  return `<strong>Sang (moyenne 2 seringues) :</strong> ${Math.round(sang)} x10⁹/L<br>` +
+         `<strong>PRP (mélange) :</strong> ${Math.round(plt)} x10⁹/L · ${String(v1 + v2).replace('.', ',')} mL · dose ${dose.toFixed(2).replace('.', ',')} Md<br>`;
+}
+
 async function createGoogleSheet() {
   const patientName = document.getElementById('patientName').value.trim();
   if (!patientName) { alert('Veuillez entrer le nom du patient'); return; }
@@ -486,6 +564,13 @@ async function createGoogleSheet() {
     prpData:   { plt: prpData.plt,   wbc: prpData.wbc,   rbc: prpData.rbc }
   };
 
+  if (est40Unique()) {
+    requestData.bloodData2 = { plt: bloodData2.plt, wbc: bloodData2.wbc, rbc: bloodData2.rbc, hct: bloodData2.hct };
+    requestData.prpData2   = { plt: prpData2.plt,   wbc: prpData2.wbc,   rbc: prpData2.rbc };
+    requestData.volPrp1 = nombre('volPrpU1');
+    requestData.volPrp2 = nombre('volPrpU2');
+  }
+
   if (injectionType === 'double') {
     requestData.bloodData2 = { plt: bloodData2.plt, wbc: bloodData2.wbc, rbc: bloodData2.rbc, hct: bloodData2.hct };
     requestData.prpData2   = { plt: prpData2.plt,   wbc: prpData2.wbc,   rbc: prpData2.rbc };
@@ -507,6 +592,7 @@ async function createGoogleSheet() {
       ${site1 ? `<strong>Site 1 :</strong> ${site1}<br>` : ''}
       ${site2 ? `<strong>Site 2 :</strong> ${site2}<br>` : ''}
       <strong>Sang prélevé :</strong> ${volSang1} mL${injectionType === 'double' ? ' + ' + volSang2 + ' mL' : ''}<br>
+      ${est40Unique() ? resume40() : ''}
       <br>📂 Google Drive → Sessions PRP → ${date}<br><br>
       <button onclick="location.reload()" style="padding:10px 20px;background:#366092;color:white;border:none;border-radius:8px;cursor:pointer;margin-top:10px;">
         ➕ Nouveau patient
